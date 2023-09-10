@@ -1,0 +1,37 @@
+#!/bin/sh
+
+OWNER="clanktron"
+repo_path="/home/git/$OWNER"
+
+show_usage() {
+  echo "Usage: $0 <create/delete> <repository_name>"
+  echo "       $0 <list>"
+}
+
+action="$1"
+if [ "$action" != "create" ] && [ "$action" != "delete" ] && [ "$action" != "list" ]; then
+	show_usage()
+	exit 1
+fi
+if [ $# -lt 2 ]; then
+	show_usage()
+	exit 1
+fi
+
+repo_name="$2"
+if [ "$action" = "create" ]; then
+	if [ -d "$repo_path/$repo_name.git" ]; then
+		echo "Repository '$repo_name' already exists."
+		exit 1
+	fi
+	git init --bare "$repo_path/$repo_name.git"
+elif [ "$action" = "delete" ]; then
+	if [ ! -d "$repo_path/$repo_name.git" ]; then
+		echo "Repository '$repo_name' does not exist."
+		exit 1
+	fi
+	rm -rf "$repo_path/$repo_name.git"
+	echo "Repository '$repo_name' deleted successfully."
+elif [ "$action" = "list" ]; then
+	ls -la "$repo_path"
+fi
