@@ -10,11 +10,11 @@ show_usage() {
 
 action="$1"
 if [ "$action" != "create" ] && [ "$action" != "delete" ] && [ "$action" != "list" ]; then
-	show_usage()
+	show_usage
 	exit 1
 fi
 if [ $# -lt 2 ]; then
-	show_usage()
+	show_usage
 	exit 1
 fi
 
